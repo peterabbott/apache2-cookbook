@@ -199,6 +199,12 @@ apache_site node['apache']['default_site_name'] do
   enable node['apache']['default_site_enabled']
 end
 
+if node['apache']['apachectl'].nil? do
+    binary_ctl = node['apache']['binary']
+else
+    binary_ctl = node['apache']['apachectl']
+end
+
 service 'apache2' do
   service_name node['apache']['service_name']
   case node['platform_family']
@@ -211,5 +217,5 @@ service 'apache2' do
   end
   supports [:start, :restart, :reload, :status]
   action [:enable, :start]
-  only_if "#{node['apache']['binary']} -t", :environment => { 'APACHE_LOG_DIR' => node['apache']['log_dir'] }, :timeout => 10
+  only_if "#{binary_ctl} -t", :environment => { 'APACHE_LOG_DIR' => node['apache']['log_dir'] }, :timeout => 10
 end
