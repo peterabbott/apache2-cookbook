@@ -199,7 +199,7 @@ apache_site node['apache']['default_site_name'] do
   enable node['apache']['default_site_enabled']
 end
 
-if node['apache']['apachectl'].nil? do
+if node['apache']['apachectl'].nil? 
     binary_ctl = node['apache']['binary']
 else
     binary_ctl = node['apache']['apachectl']
